@@ -236,13 +236,15 @@ jobs:
             artifactContentType: raw
 
 
-
-        - name: Add comment to PR
+        - name: Notify of the release in the PR
           uses: actions/github-script@v7
           with:
             script: |
               const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
-              const body = `Models have been trained and released [View Release](${releaseUrl})`;
+              const body = `
+                    ## :rocket: New models were released 
+                    You can review the models developed in this PR in [Release ${{ input.name }}-${{ env.RELEASE_TIMESTAMP }}](${releaseUrl})
+                    `;
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,

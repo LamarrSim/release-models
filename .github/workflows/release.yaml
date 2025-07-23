@@ -197,6 +197,7 @@ jobs:
       # needs: compile
       permissions:
         contents: write
+        pull-requests: write
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -237,10 +238,10 @@ jobs:
 
 
         - name: Add comment to PR
-          uses: actions/github-script@v6
+          uses: actions/github-script@v7
           with:
             script: |
-              const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}`;
+              const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
               const body = `Models have been trained and released [View Release](${releaseUrl})`;
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,

@@ -76,7 +76,6 @@ jobs:
 
                 jobs: 1
                 cores: 8
-                verbose: true
 
                 default-resources:
                   mem_mb: 2000

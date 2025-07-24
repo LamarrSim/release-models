@@ -37,6 +37,7 @@ jobs:
         uses: LamarrSim/release-models/.github/workflows/release.yaml
         permissions:
           contents: write
+          pull-requests: write
         with:
             name: pp-2016-MU-Sim10b
             snakemake_dir: notebooks

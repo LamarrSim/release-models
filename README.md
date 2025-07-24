@@ -33,14 +33,17 @@ on:
       - main
 
 jobs:
-    release-cycle:
+    trk-2016MagUp-Sim10b:
         uses: LamarrSim/release-models/.github/workflows/release.yaml
         permissions:
           contents: write
         with:
-            name: ${{ github.head_ref }}
+            name: pp-2016-MU-Sim10b
             snakemake_dir: notebooks
             target: deploy 
+            additional_config: |
+                training_data:
+                    - training-data/2016MU-sim10b/LamarrTraining.root
             additional_profile: |
                 rerun-triggers: mtime
             generated_model_path: /tmp/s3models/lamarr-train/models/compiled_model.c

@@ -8,6 +8,10 @@ on:
       target:
         required: true
         type: string
+      additional_config:
+        type: string
+        required: false
+        default: ""
       additional_profile:
         type: string
         required: false
@@ -58,6 +62,9 @@ jobs:
             snakefile: workflow/Snakefile
             config: |
                 secrets_file: /tmp/artifacts/secrets.yaml
+
+                ${{ inputs.additional_config }}
+
             profile: |
                 rerun-incomplete: True
                 keep-going: True
@@ -168,7 +175,7 @@ jobs:
           name: compiled_model.c
           path: ./artifact
   
-      - name: Compile for ${{ matrix.arch }}-${{ matrix.compiler }}
+      - name: Compile ${{ inputs.name }} for ${{ matrix.arch }}-${{ matrix.compiler }}
         run: |
           cat <<EOF > compile_cmd.sh
           source /cvmfs/lhcb.cern.ch/lib/LbEnv -c ${{ matrix.arch }}-${{ matrix.compiler }}
@@ -230,7 +237,7 @@ jobs:
           uses: ncipollo/release-action@v1
           with:
             tag: ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}
-            name: "Tracking models `${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`"
+            name: "Tracking models ${{ github.base_ref }} for ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}"
             bodyFile: pr_description.md
             artifacts: artifact/*/*.so,artifact/*/*.html,artifact/*/*.xz
             artifactContentType: raw
@@ -242,7 +249,7 @@ jobs:
             script: |
               const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
               const body = `
-              ## :rocket: New models were released 
+              ## :rocket: New models were released for ${{ inputs.name }}
               You can review the models developed in this PR in [Release ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}](${releaseUrl})
               `;
               await github.rest.issues.createComment({

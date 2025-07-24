@@ -242,9 +242,9 @@ jobs:
             script: |
               const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
               const body = `
-                    ## :rocket: New models were released 
-                    You can review the models developed in this PR in [Release ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}](${releaseUrl})
-                    `;
+              ## :rocket: New models were released 
+              You can review the models developed in this PR in [Release ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}](${releaseUrl})
+              `;
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,

@@ -41,6 +41,7 @@ jobs:
       permissions:
         contents: write
         pull-requests: write
+
       steps:
         - name: Notify of the release in the PR
           uses: actions/github-script@v7
@@ -52,7 +53,7 @@ jobs:
 
                * Name: ${{ inputs.name }}
                * Repository sub-dir: ${{ inputs.snakemake_dir }}
-               * Snakemake targets: ${{ inputs.targets }}
+               * Snakemake targets: ${{ inputs.target }}
                * Selected runner: ${{ inputs.main_runner }}
               
               At the end of the training, the models will be released and this PR will be notified again.

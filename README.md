@@ -32,6 +32,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: pull_request-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
     trk-2016MagUp-Sim10b:
         uses: LamarrSim/release-models/.github/workflows/release.yaml
@@ -39,7 +43,7 @@ jobs:
           contents: write
           pull-requests: write
         with:
-            name: pp-2016-MU-Sim10b
+            name: pp-2016-MU-Sim10b-${{ github.head_ref }}
             snakemake_dir: notebooks
             target: deploy 
             additional_config: |

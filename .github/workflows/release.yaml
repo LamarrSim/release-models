@@ -36,6 +36,33 @@ on:
             required: true
 
 jobs:
+  plan:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+        pull-requests: write
+        - name: Notify of the release in the PR
+          uses: actions/github-script@v7
+          with:
+            script: |
+              const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
+              const body = `
+              ## :robot: A new training is being planned.
+
+               * Name: ${{ inputs.name }}
+               * Repository sub-dir: ${{ inputs.snakemake_dir }}
+               * Snakemake targets: ${{ inputs.targets }}
+               * Selected runner: ${{ inputs.main_runner }}
+              
+              At the end of the training, the models will be released and this PR will be notified again.
+              `;
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+
   train-and-validate:
     runs-on: ${{ inputs.main_runner }}
     steps:
@@ -249,7 +276,7 @@ jobs:
             script: |
               const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}`;
               const body = `
-              ## :rocket: New models were released for ${{ inputs.name }}
+              ## :rocket: Models for ${{ inputs.name }} were released
               You can review the models developed in this PR in [Release ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}](${releaseUrl})
               `;
               await github.rest.issues.createComment({

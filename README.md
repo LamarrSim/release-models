@@ -32,10 +32,6 @@ on:
     branches:
       - main
 
-concurrency:
-  group: pull_request-${{ github.head_ref }}
-  cancel-in-progress: true
-
 jobs:
     trk-2016MagUp-Sim10b:
         uses: LamarrSim/release-models/.github/workflows/release.yaml

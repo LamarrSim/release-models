@@ -127,7 +127,7 @@ jobs:
 
   compress-transpiled-c:
     runs-on: ubuntu-latest
-    container: harbor.cloud.infn.it/unpacked/aiinfn-gha-runner:latest
+  #  container: harbor.cloud.infn.it/unpacked/aiinfn-gha-runner:latest
     needs: train-and-validate
     steps:
       - name: Install missing libraries

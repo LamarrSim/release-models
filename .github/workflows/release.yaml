@@ -261,6 +261,13 @@ jobs:
             gh pr list --head ${{ github.head_ref }} --limit 1 --json number,body \
               --jq '.[0].body' > pr_description.md
 
+        - name: List artifacts
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            find artifact/
+
+
         - name: Create GitHub Release
           env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -269,7 +276,7 @@ jobs:
             tag: ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}
             name: "Tracking models ${{ github.base_ref }} for ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}"
             bodyFile: pr_description.md
-            artifacts: artifact/*/*.so,artifact/*/*.html,artifact/*/*.xz,artiact/*/*.zip
+            artifacts: artifact/*/*.so,artifact/*/*.html,artifact/*/*.xz,artifact/*/*.zip
             artifactContentType: raw
 
 

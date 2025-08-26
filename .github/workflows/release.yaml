@@ -31,6 +31,11 @@ on:
         required: false
         default: "aiinfn-lamarrsim-gpu"
 
+      model_prefix:
+        type: string
+        required: false
+        default: "trk"
+
     secrets:
         SECRETS_YAML:
             required: true
@@ -217,7 +222,7 @@ jobs:
               --shared  \
               -fPIC \
               -std=c99 \
-              -o build/trk-${{ matrix.arch }}-${{ matrix.compiler }}.so
+              -o build/${{ inputs.model_prefix }}-${{ matrix.arch }}-${{ matrix.compiler }}.so
           EOF
           apptainer exec -B/home -B/cvmfs -B/tmp  \
               ${{ matrix.container }} \

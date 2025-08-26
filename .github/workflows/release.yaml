@@ -67,6 +67,7 @@ jobs:
 
   train-and-validate:
     runs-on: ${{ inputs.main_runner }}
+    timeout-minutes: 1500 # a bit more than one day
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

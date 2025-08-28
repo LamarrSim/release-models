@@ -279,7 +279,7 @@ jobs:
           uses: ncipollo/release-action@v1
           with:
             tag: ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}
-            name: "Tracking models ${{ github.base_ref }} for ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}"
+            name: "Models ${{ github.base_ref }} trained for ${{ inputs.name }}-${{ env.RELEASE_TIMESTAMP }}"
             bodyFile: pr_description.md
             artifacts: artifact/*/*.so,artifact/*/*.html,artifact/*/*.xz,artifact/*/*.zip
             artifactContentType: raw
